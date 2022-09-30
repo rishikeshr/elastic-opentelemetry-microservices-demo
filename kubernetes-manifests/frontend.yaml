@@ -69,13 +69,13 @@ spec:
           - name: OTEL_EXPORTER_OTLP_ENDPOINT
             valueFrom:
               secretKeyRef:
-                name: otel_exporter_otlp
+                name: otel-exporter-otlp
                 key: endpoint
 #          value: "http://otelcollector:4317"
           - name: OTEL_EXPORTER_OTLP_HEADERS
             valueFrom:
               secretKeyRef:
-                name: otel_exporter_otlp
+                name: otel-exporter-otlp
                 key: header
           - name: OTEL_RESOURCE_ATTRIBUTES
             value: "service.name=frontend,service.version=1.0.0"
