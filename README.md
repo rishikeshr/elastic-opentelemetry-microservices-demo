@@ -10,11 +10,13 @@ All the services had their OpenCensus, Cloud Operations (Stackdriver) removed. O
 This repo is additionally modified to support Elastic Cloud end point. Kubernetes Manifest have two variables built into them now.
 
 1/OTEL_EXPORTER_OTLP_ENDPOINT --> this will point to Elastic's APM Server endpoint - should look like "https:/dfgsdfsdfgds.ec2.apm.us-east1.gcp.cloud.es.io:443"
+
 2/OTEL_EXPORTER_OTLP_HEADERS --> this will use the Elastic APM Exporter OTLP Header value - should look like "Authorization=BearerSFSD%$#$343" value from elastic
 
-to get these values for your Elastic Cloud instance, please go to APM section, add data, then select the Open Telemetry configuration. You will see these values listed.
+To get these values for your Elastic Cloud instance, please go to APM section, add data, then select the Open Telemetry configuration. You will see these values listed.
 
 To run this repo with K8S Manifests
+0/Load up skaffold into your shell location
 1/set up your favorite Kubernetes cluster of choice (AWS/AKS/GKE/etc)
 2/Then add the following two secrets
 
@@ -23,7 +25,7 @@ kubectl create secret generic otel-exporter-otlp --from-literal=endpoint="OTEL_E
 kubectl create secret generic otel-exporter-otlp-space -from-literal=header="OTEL_EXPORTER_OTLP_HEADERS value from Elastic"
 ```
 
-Next run 
+Next run from the opentelemetry-microservices-demo directory NOT from the K8S manifest directory. 
 ```
 skaffold run --default-repo=<your docker hub repo>
 ```
