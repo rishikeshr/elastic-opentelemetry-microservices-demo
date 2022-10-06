@@ -21,9 +21,15 @@ To run this repo with K8S Manifests
 2/Then add the following two secrets
 
 ```
-kubectl create secret generic otel-exporter-otlp --from-literal=endpoint="OTEL_EXPORTER_OTLP_ENDPOINT value from  Elastic"
-kubectl create secret generic otel-exporter-otlp-space -from-literal=header="OTEL_EXPORTER_OTLP_HEADERS value from Elastic"
+
+kubectl create secret generic otel-exporter-otlp --from-literal=endpoint="OTEL_EXPORTER_OTLP_ENDPOINT value from  Elastic" --from-literal=header="OTEL_EXPORTER_OTLP_HEADERS value from Elastic"
+kubectl create secret generic otel-exporter-otlp-space -from-literal=header="OTEL_EXPORTER_OTLP_HEADERS value from Elastic" 
 ```
+
+In the second secret line you need to modify the OTEL_EXPORTER_OTLP_HEADER with a %20 to explicitly note the space. Hence your value for the second secret should be something like this
+"Authorization=Bearer%20DSFSDFSRW@#$" vs "Authorization=Bearer DSFSDFSRW@#$"
+
+Why are we adding a modified secret again? This is beacuse for Python services, the space needs to be '%20'
 
 Next run from the opentelemetry-microservices-demo directory NOT from the K8S manifest directory. 
 ```
