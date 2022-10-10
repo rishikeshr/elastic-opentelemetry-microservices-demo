@@ -23,7 +23,7 @@ To run this repo with K8S Manifests
 ```
 
 kubectl create secret generic otel-exporter-otlp --from-literal=endpoint="OTEL_EXPORTER_OTLP_ENDPOINT value from  Elastic" --from-literal=header="OTEL_EXPORTER_OTLP_HEADERS value from Elastic"
-kubectl create secret generic otel-exporter-otlp-space -from-literal=header="OTEL_EXPORTER_OTLP_HEADERS value from Elastic" 
+kubectl create secret generic otel-exporter-otlp-space --from-literal=header="OTEL_EXPORTER_OTLP_HEADERS value from Elastic" 
 ```
 
 In the second secret line you need to modify the OTEL_EXPORTER_OTLP_HEADER with a %20 to explicitly note the space. Hence your value for the second secret should be something like this
@@ -36,6 +36,23 @@ Next run from the opentelemetry-microservices-demo directory NOT from the K8S ma
 skaffold run --default-repo=<your docker hub repo>
 ```
 
+
+IF YOU DO NOT WANT TO BUILD LOCAL IMAGES, then use the manifests from the elastic-k8s-manifests directory
+
+Please bring them up in this order:
+
+    kubectl create -f ./elastic-k8s-manifests/adservice.yaml
+    kubectl create -f ./elastic-k8s-manifests/redis/yaml
+    kubectl create -f ./elastic-k8s-manifests/cartservice.yaml
+    kubectl create -f ./elastic-k8s-manifests/checkoutservice.yaml
+    kubectl create -f ./elastic-k8s-manifests/currencyservice.yaml
+    kubectl create -f ./elastic-k8s-manifests/emailservice.yaml
+    kubectl create -f ./elastic-k8s-manifests/frontend.yaml
+    kubectl create -f ./elastic-k8s-manifests/paymentservice.yaml
+    kubectl create -f ./elastic-k8s-manifests/productcatalogservice.yaml
+    kubectl create -f ./elastic-k8s-manifests/recommendationservice.yaml
+    kubectl create -f ./elastic-k8s-manifests/shippingservice.yaml
+    kubectl create -f ./elastic-k8s-manifests/loadgenerator.yaml
 ---
 
 **Online Boutique** is a cloud-native microservices demo application.
