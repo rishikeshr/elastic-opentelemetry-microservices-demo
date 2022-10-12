@@ -24,9 +24,9 @@ data:
           processes:
     exporters:
       otlp/elastic:
-        endpoint: ELASTIC-ENDPOINT 
+        endpoint: OTEL_EXPORTER_OTLP_ENDPOINT 
         headers:
-          Authorization: ELASTIC-AUTH
+          Authorization: OTEL_EXPORTER_OTLP_HEADERS
       logging:
         loglevel: warn
     service:
