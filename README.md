@@ -7,7 +7,62 @@
 ## This repo was modified and it is used to demonstrate OpenTelemetry capabilities
 All the services had their OpenCensus, Cloud Operations (Stackdriver) removed. Only OpenTelemetry Traces were added.   
 
-This repo is additionally modified to support Elastic Cloud end point. Kubernetes Manifest have two variables built into them now.
+## This repo has been modified for Elastic
+Specifically this repo is additionally modified to support Elastic Cloud end point. 
+
+**Option 1 -To run this with Elastic and OTel Collector:**
+
+In the `deploy-with-collector-k8s` directory
+
+1-change the two VARIABLES in `otelcollector.yaml` - `OTEL_EXPORTER_OTLP_ENDPOINT` and `OTEL_EXPORTER_OTLP_HEADERS` with Elastic APM Server values.
+
+Replace:
+
+```
+      otlp/elastic:
+        endpoint: ELASTIC-ENDPOINT
+        headers:
+          Authorization: ELASTIC-AUTH
+```
+
+With values from Elastic for APM Server `OTEL_EXPORTER_OTLP_ENDPOINT` & `OTEL_EXPORTER_OTLP_HEADERS`
+
+```
+      otlp/elastic:
+        endpoint: "https:/dfgsdfsdfgds.ec2.apm.us-east1.gcp.cloud.es.io:443"
+        headers:
+          Authorization: "Authorization=BearerSFSD%$#$343"
+```
+
+Run the following:
+
+```
+    kubectl create -f ./deploy-with-collector-k8s/adservice.yaml
+    kubectl create -f ./deploy-with-collector-k8s/redis/yaml
+    kubectl create -f ./deploy-with-collector-k8s/cartservice.yaml
+    kubectl create -f ./deploy-with-collector-k8s/checkoutservice.yaml
+    kubectl create -f ./deploy-with-collector-k8s/currencyservice.yaml
+    kubectl create -f ./deploy-with-collector-k8s/emailservice.yaml
+    kubectl create -f ./deploy-with-collector-k8s/frontend.yaml
+    kubectl create -f ./deploy-with-collector-k8s/paymentservice.yaml
+    kubectl create -f ./deploy-with-collector-k8s/productcatalogservice.yaml
+    kubectl create -f ./deploy-with-collector-k8s/recommendationservice.yaml
+    kubectl create -f ./deploy-with-collector-k8s/shippingservice.yaml
+    kubectl create -f ./deploy-with-collector-k8s/loadgenerator.yaml
+```
+
+Ensure everything is running with `kubectl get pods` and inspect any pods as needed.
+
+Next run the `OTel Collector`
+
+```
+    kubetctl create -f ./deploy-with-collector-k8s/otelcollector.yaml
+```
+
+
+**Option 2 Run without collector and point directly to Elastic APM Server**
+
+Kubernetes Manifest have two variables built into them now.
 
 1/OTEL_EXPORTER_OTLP_ENDPOINT --> this will point to Elastic's APM Server endpoint - should look like "https:/dfgsdfsdfgds.ec2.apm.us-east1.gcp.cloud.es.io:443"
 
@@ -36,7 +91,6 @@ Next run from the opentelemetry-microservices-demo directory NOT from the K8S ma
 skaffold run --default-repo=<your docker hub repo>
 ```
 
-
 IF YOU DO NOT WANT TO BUILD LOCAL IMAGES, then use the manifests from the elastic-k8s-manifests directory
 
 Please bring them up in this order:
@@ -54,6 +108,8 @@ Please bring them up in this order:
     kubectl create -f ./elastic-k8s-manifests/shippingservice.yaml
     kubectl create -f ./elastic-k8s-manifests/loadgenerator.yaml
 ---
+
+## Original Part of README and the app information details
 
 **Online Boutique** is a cloud-native microservices demo application.
 Online Boutique consists of a 10-tier microservices application + 1 Load Generator. The application is a web-based e-commerce app where users can browse items, add them to the cart, and purchase them.
