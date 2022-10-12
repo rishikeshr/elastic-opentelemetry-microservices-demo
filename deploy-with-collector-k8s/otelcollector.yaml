@@ -24,9 +24,9 @@ data:
           processes:
     exporters:
       otlp/elastic:
-        endpoint: "https://65c842011c634162839ca586157a4e2c.apm.us-central1.gcp.cloud.es.io:443"
+        endpoint: ELASTIC-ENDPOINT 
         headers:
-          Authorization: "Bearer x2RZVxUcyXRZGUF1lD"
+          Authorization: ELASTIC-AUTH
       logging:
         loglevel: warn
     service:
