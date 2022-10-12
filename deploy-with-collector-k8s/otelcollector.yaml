@@ -1,3 +1,56 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: otel-collector-conf
+  labels:
+    app: otelcollector
+    component: otel-collector-conf
+data:
+  otel-collector-config: |
+    receivers:
+      otlp:
+        protocols:
+          grpc:
+          http:
+      hostmetrics:
+        scrapers:
+          cpu:
+          disk:
+          load:
+          filesystem:
+          memory:
+          network:
+          paging:
+          processes:
+    exporters:
+      otlp/elastic:
+        endpoint: "https://65c842011c634162839ca586157a4e2c.apm.us-central1.gcp.cloud.es.io:443"
+        headers:
+          Authorization: "Bearer x2RZVxUcyXRZGUF1lD"
+      logging:
+        loglevel: warn
+    service:
+      pipelines:
+        traces:
+          receivers:
+            - otlp
+          exporters:
+            - logging
+            - otlp/elastic
+        metrics:
+          receivers:
+            - otlp
+            - hostmetrics
+          exporters:
+            - logging
+            - otlp/elastic
+        logs:
+          receivers:
+            - otlp
+          exporters:
+            - logging
+            - otlp/elastic
+---          
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -14,22 +67,37 @@ spec:
       serviceAccountName: default
       terminationGracePeriodSeconds: 5
       containers:
-      - name: otelcollector
-        image: bshetti/otelcollector:v0.1.4-184-g6b091ff
-        ports:
-        - containerPort: 1888
-        - containerPort: 8888
-        - containerPort: 8889
-        - containerPort: 13133
-        - containerPort: 4317
-        - containerPort: 55670
+      - command:
+          - "/otelcol"
+          - "--config=/conf/otel-collector-config.yaml"
+        image: otel/opentelemetry-collector:0.61.0
+        name: otelcollector
         resources:
+          limits:
+            cpu: 1
+            memory: 2Gi
           requests:
             cpu: 200m
-            memory: 180Mi
-          limits:
-            cpu: 300m
-            memory: 300Mi
+            memory: 400Mi
+        ports:
+        - containerPort: 55679 # Default endpoint for ZPages.
+        - containerPort: 4317 # Default endpoint for OpenTelemetry receiver.
+        - containerPort: 14250 # Default endpoint for Jaeger gRPC receiver.
+        - containerPort: 14268 # Default endpoint for Jaeger HTTP receiver.
+        - containerPort: 9411 # Default endpoint for Zipkin receiver.
+        - containerPort: 8888  # Default endpoint for querying metrics.
+        volumeMounts:
+        - name: otel-collector-config-vol
+          mountPath: /conf
+#        - name: otel-collector-secrets
+#          mountPath: /secrets
+      volumes:
+        - configMap:
+            name: otel-collector-conf
+            items:
+              - key: otel-collector-config
+                path: otel-collector-config.yaml
+          name: otel-collector-config-vol
 ---
 apiVersion: v1
 kind: Service
@@ -40,21 +108,13 @@ spec:
   selector:
     app: otelcollector
   ports:
-  - name: "1888"
-    port: 1888
-    targetPort: 1888
-  - name: "8888"
-    port: 8888
-    targetPort: 8888
-  - name: "8889"
-    port: 8889
-    targetPort: 8889
-  - name: "13133"
-    port: 13133
-    targetPort: 13133
-  - name: "4317"
+  - name: otlp-grpc # Default endpoint for OpenTelemetry gRPC receiver.
     port: 4317
+    protocol: TCP
     targetPort: 4317
-  - name: "55670"
-    port: 55670
-    targetPort: 55670
+  - name: otlp-http # Default endpoint for OpenTelemetry HTTP receiver.
+    port: 4318
+    protocol: TCP
+    targetPort: 4318
+  - name: metrics # Default endpoint for querying metrics.
+    port: 8888
