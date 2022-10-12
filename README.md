@@ -20,12 +20,13 @@ Replace:
 
 ```
       otlp/elastic:
-        endpoint: ELASTIC-ENDPOINT
+        endpoint: OTEL_EXPORTER_OTLP_ENDPOINT
         headers:
-          Authorization: ELASTIC-AUTH
+          Authorization: OTEL_EXPORTER_OTLP_HEADERS
 ```
 
 With values from Elastic for APM Server `OTEL_EXPORTER_OTLP_ENDPOINT` & `OTEL_EXPORTER_OTLP_HEADERS`
+(NOTE: Below are dummy values to provide an example. Ensure you go to APM Server OTel section in Elastic to get your values)
 
 ```
       otlp/elastic:
