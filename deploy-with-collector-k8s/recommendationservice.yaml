@@ -48,7 +48,7 @@ spec:
         - name: OTEL_EXPORTER_OTLP_ENDPOINT
           value: "http://otelcollector:4317"
         - name: OTEL_RESOURCE_ATTRIBUTES
-          value: "service.name=recommendationservice,service.version=1.0.0,deployment.environment=elastic-otel-demo"
+          value: "service.name=recommendationservice,service.version=1.0.0,deployment.environment=MY-DEMO"
         resources:
           requests:
             cpu: 100m

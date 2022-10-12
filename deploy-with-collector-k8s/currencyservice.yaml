@@ -29,7 +29,7 @@ spec:
       terminationGracePeriodSeconds: 5
       containers:
       - name: server
-        image: bshetti/currencyservice:v0.1.4-184-g6b091ff-dirty
+        image: bshetti/currencyservice:v0.1.4-184-g6b091ff
         ports:
         - name: grpc
           containerPort: 7000
@@ -39,7 +39,7 @@ spec:
         - name: OTEL_EXPORTER_OTLP_ENDPOINT
           value: "http://otelcollector:4317"
         - name: OTEL_RESOURCE_ATTRIBUTES
-          value: "service.name=currencyservice,service.version=1.0.0, deployment.environment=elastic-otel-demo"
+          value: "service.name=currencyservice,service.version=1.0.0, deployment.environment=MY-DEMO"
         readinessProbe:
           exec:
             command: ["/bin/grpc_health_probe", "-addr=:7000"]
