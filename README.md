@@ -32,7 +32,7 @@ With values from Elastic for APM Server `OTEL_EXPORTER_OTLP_ENDPOINT` & `OTEL_EX
       otlp/elastic:
         endpoint: "https:/dfgsdfsdfgds.ec2.apm.us-east1.gcp.cloud.es.io:443"
         headers:
-          Authorization: "Authorization=BearerSFSD%$#$343"
+          Authorization: "Bearer YOUR-SECRET-HERE"
 ```
 
 Run the following:
