@@ -57,7 +57,7 @@ Ensure everything is running with `kubectl get pods` and inspect any pods as nee
 Next run the `OTel Collector`
 
 ```
-    kubetctl create -f ./deploy-with-collector-k8s/otelcollector.yaml
+    kubectl create -f ./deploy-with-collector-k8s/otelcollector.yaml
 ```
 
 
