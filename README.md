@@ -39,7 +39,7 @@ Run the following:
 
 ```
     kubectl create -f ./deploy-with-collector-k8s/adservice.yaml
-    kubectl create -f ./deploy-with-collector-k8s/redis/yaml
+    kubectl create -f ./deploy-with-collector-k8s/redis.yaml
     kubectl create -f ./deploy-with-collector-k8s/cartservice.yaml
     kubectl create -f ./deploy-with-collector-k8s/checkoutservice.yaml
     kubectl create -f ./deploy-with-collector-k8s/currencyservice.yaml

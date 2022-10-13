@@ -13,6 +13,7 @@ data:
           grpc:
           http:
       hostmetrics:
+        collection_interval: 10s
         scrapers:
           cpu:
           disk:
@@ -23,10 +24,11 @@ data:
           paging:
           processes:
     exporters:
-      otlp/elastic:
-        endpoint: OTEL_EXPORTER_OTLP_ENDPOINT 
+      otlphttp/elastic:
+        endpoint: "{your elastic apm server url here}"
+        compression: none
         headers:
-          Authorization: OTEL_EXPORTER_OTLP_HEADERS
+          Authorization: "Bearer {your apm secret here}"
       logging:
         loglevel: warn
     service:
@@ -36,20 +38,20 @@ data:
             - otlp
           exporters:
             - logging
-            - otlp/elastic
+            - otlphttp/elastic
         metrics:
           receivers:
             - otlp
             - hostmetrics
           exporters:
             - logging
-            - otlp/elastic
+            - otlphttp/elastic
         logs:
           receivers:
             - otlp
           exporters:
             - logging
-            - otlp/elastic
+            - otlphttp/elastic
 ---          
 apiVersion: apps/v1
 kind: Deployment
