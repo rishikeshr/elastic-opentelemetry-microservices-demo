@@ -56,10 +56,10 @@ data:
                 enabled: true
     exporters:
       otlphttp/elastic:
-        endpoint: "{your elastic apm server url here}"
+        endpoint: OTEL_EXPORTER_OTLP_ENDPOINT
         compression: none
         headers:
-          Authorization: "Bearer {your apm secret here}"
+          Authorization: OTEL_EXPORTER_OTLP_HEADERS
       logging:
         loglevel: warn
     service:
