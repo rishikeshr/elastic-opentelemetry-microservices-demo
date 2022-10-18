@@ -13,20 +13,53 @@ data:
           grpc:
           http:
       hostmetrics:
+        collection_interval: 10s
         scrapers:
           cpu:
+            metrics:
+              system.cpu.time:
+                enabled: true
+              system.cpu.utilization:
+                enabled: true
           disk:
           load:
           filesystem:
           memory:
+            metrics:
+              system.memory.usage:
+                enabled: true
+              system.memory.utilization:
+                enabled: true
           network:
           paging:
+          process:
+            metrics:
+              process.cpu.time:
+                enabled: true
+              process.disk.io:
+                enabled: true
+              process.disk.io.read:
+                enabled: true
+              process.disk.io.write:
+                enabled: true
+              process.memory.physical_usage:
+                enabled: true
+              process.memory.virtual_usage:
+                enabled: true
+              process.threads:
+                enabled: true
           processes:
+            metrics:
+              system.processes.count:
+                enabled: true
+              system.processes.created:
+                enabled: true
     exporters:
-      otlp/elastic:
-        endpoint: OTEL_EXPORTER_OTLP_ENDPOINT 
+      otlphttp/elastic:
+        endpoint: "{your elastic apm server url here}"
+        compression: none
         headers:
-          Authorization: OTEL_EXPORTER_OTLP_HEADERS
+          Authorization: "Bearer {your apm secret here}"
       logging:
         loglevel: warn
     service:
@@ -36,20 +69,20 @@ data:
             - otlp
           exporters:
             - logging
-            - otlp/elastic
+            - otlphttp/elastic
         metrics:
           receivers:
             - otlp
             - hostmetrics
           exporters:
             - logging
-            - otlp/elastic
+            - otlphttp/elastic
         logs:
           receivers:
             - otlp
           exporters:
             - logging
-            - otlp/elastic
+            - otlphttp/elastic
 ---          
 apiVersion: apps/v1
 kind: Deployment

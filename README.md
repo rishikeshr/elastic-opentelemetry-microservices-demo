@@ -32,7 +32,7 @@ With values from Elastic for APM Server `OTEL_EXPORTER_OTLP_ENDPOINT` & `OTEL_EX
       otlp/elastic:
         endpoint: "https:/dfgsdfsdfgds.ec2.apm.us-east1.gcp.cloud.es.io:443"
         headers:
-          Authorization: "Authorization=BearerSFSD%$#$343"
+          Authorization: "Bearer YOUR-SECRET-HERE"
 ```
 
 Run the following:
@@ -57,7 +57,7 @@ Ensure everything is running with `kubectl get pods` and inspect any pods as nee
 Next run the `OTel Collector`
 
 ```
-    kubetctl create -f ./deploy-with-collector-k8s/otelcollector.yaml
+    kubectl create -f ./deploy-with-collector-k8s/otelcollector.yaml
 ```
 
 
