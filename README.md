@@ -144,7 +144,7 @@ If you want to test it locally without a kubernetes cluster, you can follow the 
 
 ```
 git clone https://github.com/rishikeshr/elastic-opentelemetry-microservices-demo.git
-cd opentelemetry-microservices-demo
+cd elastic-opentelemetry-microservices-demo
 ```
 
 2. **Build and run the containers.**  
