@@ -143,7 +143,7 @@ If you want to test it locally without a kubernetes cluster, you can follow the 
 1. **Clone this repository.**
 
 ```
-git clone https://github.com/julianocosta89/opentelemetry-microservices-demo.git
+git clone https://github.com/rishikeshr/opentelemetry-microservices-demo.git
 cd opentelemetry-microservices-demo
 ```
 
